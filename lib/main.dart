@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignupView(),
         '/signin': (context) => LoginScreen(),
         '/profile': (context) => ProfileView(),
-        '/lastwords': (context) => LastWordsView(),
+        '/lastwords': (context) => LastWordsScreen(),
       },
     );
   }

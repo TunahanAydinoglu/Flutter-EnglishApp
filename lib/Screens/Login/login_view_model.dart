@@ -12,7 +12,7 @@ abstract class _LoginViewModelBase with Store {
   String password;
 
   @observable
-  String token;
+  String token = "";
 
   @action
   onChangeEmail(String mail) {
@@ -32,7 +32,7 @@ abstract class _LoginViewModelBase with Store {
         .post(baseUrl + "auth/login", data: {'email': mail, "password": passw});
     var responseData = LoginUserModel.fromJson(response.data);
     token = responseData.token;
-    print(token);
+    print("login VM : " + token);
     return token.length > 0 ? true : false;
   }
 }

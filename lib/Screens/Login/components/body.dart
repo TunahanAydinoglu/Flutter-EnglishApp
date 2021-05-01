@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/LastWords/lastwords_screen.dart';
 import 'package:flutter_auth/Screens/Login/components/background.dart';
 import 'package:flutter_auth/Screens/Login/login_view_model.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
@@ -47,9 +48,15 @@ class Body extends StatelessWidget {
               text: "LOGIN",
               press: () async {
                 var isSuccess = await _loginViewModel.loginPost();
-                isSuccess
-                    ? Navigator.pushNamed(context, "/lastwords")
-                    : buildShowDialog(context);
+                if (isSuccess) {
+                  var token = _loginViewModel.token;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LastWordsScreen(token: token)));
+                } else {
+                  buildShowDialog(context);
+                }
               },
             ),
             SizedBox(height: size.height * 0.03),

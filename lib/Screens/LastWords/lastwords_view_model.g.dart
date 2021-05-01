@@ -28,16 +28,9 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
       AsyncAction('_LastWordsViewModelBase.getUserLastWords');
 
   @override
-  Future<bool> getUserLastWords() {
-    return _$getUserLastWordsAsyncAction.run(() => super.getUserLastWords());
-  }
-
-  final _$fetchAlbumAsyncAction =
-      AsyncAction('_LastWordsViewModelBase.fetchAlbum');
-
-  @override
-  Future<http.Response> fetchAlbum(String token) {
-    return _$fetchAlbumAsyncAction.run(() => super.fetchAlbum(token));
+  Future<List<LastWord>> getUserLastWords(String token) {
+    return _$getUserLastWordsAsyncAction
+        .run(() => super.getUserLastWords(token));
   }
 
   @override
