@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/LastWords/lastwords_screen.dart';
-import 'package:flutter_auth/Screens/Profile/profile_view.dart';
+import 'package:flutter_auth/Screens/Profile/profile_screen.dart';
 import 'package:flutter_auth/Screens/Signup/signup_view.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/constants.dart';
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Auth',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
+        accentColor: Colors.white,
         scaffoldBackgroundColor: Colors.white,
       ),
       initialRoute: '/',
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => WelcomeScreen(),
         '/signup': (context) => SignupView(),
         '/signin': (context) => LoginScreen(),
-        '/profile': (context) => ProfileView(),
+        '/profile': (context) => ProfileScreen(),
         '/lastwords': (context) => LastWordsScreen(),
       },
     );

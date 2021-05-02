@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_auth/Screens/Login/login_model.dart';
+import 'package:flutter_auth/models/login_model.dart';
 import 'package:mobx/mobx.dart';
 part 'login_view_model.g.dart';
 
@@ -32,7 +32,7 @@ abstract class _LoginViewModelBase with Store {
         .post(baseUrl + "auth/login", data: {'email': mail, "password": passw});
     var responseData = LoginUserModel.fromJson(response.data);
     token = responseData.token;
-    print("login VM : " + token);
+    // print("login VM : " + token);
     return token.length > 0 ? true : false;
   }
 }

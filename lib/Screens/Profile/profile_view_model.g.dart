@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lastwords_view_model.dart';
+part of 'profile_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,23 +8,23 @@ part of 'lastwords_view_model.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
-  final _$lastWordsAtom = Atom(name: '_LastWordsViewModelBase.lastWords');
+mixin _$ProfileViewModel on _ProfileViewModelBase, Store {
+  final _$userWordsAtom = Atom(name: '_ProfileViewModelBase.userWords');
 
   @override
-  List<UserWord> get lastWords {
-    _$lastWordsAtom.reportRead();
-    return super.lastWords;
+  List<UserWord> get userWords {
+    _$userWordsAtom.reportRead();
+    return super.userWords;
   }
 
   @override
-  set lastWords(List<UserWord> value) {
-    _$lastWordsAtom.reportWrite(value, super.lastWords, () {
-      super.lastWords = value;
+  set userWords(List<UserWord> value) {
+    _$userWordsAtom.reportWrite(value, super.userWords, () {
+      super.userWords = value;
     });
   }
 
-  final _$userAtom = Atom(name: '_LastWordsViewModelBase.user');
+  final _$userAtom = Atom(name: '_ProfileViewModelBase.user');
 
   @override
   User get user {
@@ -39,19 +39,18 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
-  final _$getUserLastWordsAsyncAction =
-      AsyncAction('_LastWordsViewModelBase.getUserLastWords');
+  final _$getUserWordsAsyncAction =
+      AsyncAction('_ProfileViewModelBase.getUserWords');
 
   @override
-  Future<dynamic> getUserLastWords(String token) {
-    return _$getUserLastWordsAsyncAction
-        .run(() => super.getUserLastWords(token));
+  Future<dynamic> getUserWords(String token) {
+    return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
   }
 
   @override
   String toString() {
     return '''
-lastWords: ${lastWords},
+userWords: ${userWords},
 user: ${user}
     ''';
   }

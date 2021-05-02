@@ -1,4 +1,4 @@
-class LastWord {
+class UserWord {
   int counter;
   bool isMemory;
   String sId;
@@ -7,7 +7,7 @@ class LastWord {
   String user;
   String createdAt;
 
-  LastWord(
+  UserWord(
       {this.counter,
       this.isMemory,
       this.sId,
@@ -16,7 +16,7 @@ class LastWord {
       this.user,
       this.createdAt});
 
-  LastWord.fromJson(Map<String, dynamic> json) {
+  UserWord.fromJson(Map<String, dynamic> json) {
     counter = json['counter'];
     isMemory = json['isMemory'];
     sId = json['_id'];
@@ -39,13 +39,13 @@ class LastWord {
   }
 }
 
-class LastWordsResponseModel {
+class UserWordsResponseModel {
   bool success;
   List<Data> data;
 
-  LastWordsResponseModel({this.success, this.data});
+  UserWordsResponseModel({this.success, this.data});
 
-  LastWordsResponseModel.fromJson(Map<String, dynamic> json) {
+  UserWordsResponseModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
       data = <Data>[];
