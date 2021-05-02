@@ -42,11 +42,9 @@ abstract class _SignupViewModelBase with Store {
     request.body =
         jsonEncode({'name': fullName, 'email': email, 'password': password});
     request.headers.addAll(headers);
-    print("fff" + fullName + "  eee : " + email + "ppp:" + password);
     http.StreamedResponse response = await request.send();
 
     final respStr = await response.stream.bytesToString();
-    print(respStr);
     final responseJson = jsonDecode(respStr);
 
     var result = RegisterResponseModel.fromJson(responseJson);
