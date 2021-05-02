@@ -163,7 +163,7 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
   ListView listWordsWidget(List<UserWord> lastWords) => ListView.builder(
         itemCount: lastWords.length,
         itemBuilder: (context, index) =>
-            index == 0 ? indexZeroCard : WordCard(lastWords, index),
+            index == 0 ? indexZeroCard : wordCard(lastWords, index),
       );
 
   Card get indexZeroCard => Card(
@@ -187,7 +187,7 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
         ),
       );
 
-  Card WordCard(List<UserWord> lastWords, int index) {
+  Card wordCard(List<UserWord> lastWords, int index) {
     index = index - 1;
     return Card(
       margin: EdgeInsets.all(10),

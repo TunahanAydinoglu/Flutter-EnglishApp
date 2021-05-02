@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter_auth/models/register_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 part 'signup_view_model.g.dart';
@@ -5,23 +7,50 @@ part 'signup_view_model.g.dart';
 class SignupViewModel = _SignupViewModelBase with _$SignupViewModel;
 
 abstract class _SignupViewModelBase with Store {
+  final baseUrl = "https://retro-words.herokuapp.com/api/";
+
+  @observable
+  String fullName = "";
+  @observable
+  String email = "";
+  @observable
+  String password = "";
+
+  @action
+  onChangeFullName(String name) {
+    fullName = name;
+  }
+
+  @action
+  onChangeEmail(String mail) {
+    email = mail;
+  }
+
+  @action
+  onChangePassword(String passw) {
+    password = passw;
+  }
+
   @action
   Future<bool> registerPost() async {
-    var headers = {'Content-Type': 'application/json'};
-    var request = http.Request(
-        'POST', Uri.parse('http://localhost:5000/api/auth/register'));
+    var headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request =
+        await http.Request('POST', Uri.parse(baseUrl + 'auth/register'));
     request.body =
-        '''{"name":"Dilan Cetinkaya","email":"dilan@cetinkaya.com","password":"070707"}''';
+        jsonEncode({'name': fullName, 'email': email, 'password': password});
     request.headers.addAll(headers);
-
+    print("fff" + fullName + "  eee : " + email + "ppp:" + password);
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-      return true;
-    } else {
-      print(response.reasonPhrase);
-      return false;
-    }
+    final respStr = await response.stream.bytesToString();
+    print(respStr);
+    final responseJson = jsonDecode(respStr);
+
+    var result = RegisterResponseModel.fromJson(responseJson);
+
+    return result.success;
   }
 }

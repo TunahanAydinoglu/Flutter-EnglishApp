@@ -45,7 +45,7 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: "LOGIN",
+              text: "SIGN IN",
               press: () async {
                 var isSuccess = await _loginViewModel.loginPost();
                 if (isSuccess) {
