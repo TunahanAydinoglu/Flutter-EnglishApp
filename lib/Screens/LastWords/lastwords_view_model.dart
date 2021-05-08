@@ -17,25 +17,59 @@ abstract class _LastWordsViewModelBase with Store {
   List<UserWord> lastWords = [];
 
   @observable
+  List<UserWord> showWords = [];
+
+  @observable
+  List<UserWord> words = [];
+
+  @observable
   User user = User();
 
   @action
   Future getUserLastWords(String token) async {
-    final response = await http.get(
-      Uri.parse(baseUrl + 'api/words/last'),
-      headers: {HttpHeaders.authorizationHeader: token},
-    );
+    if (lastWords.length > 0) {
+      showWords = [...lastWords];
+    } else {
+      final response = await http.get(
+        Uri.parse(baseUrl + 'api/words/last'),
+        headers: {HttpHeaders.authorizationHeader: token},
+      );
 
-    final responseJson = jsonDecode(response.body);
+      final responseJson = jsonDecode(response.body);
 
-    user = User.fromJson(responseJson['userInfo']);
-    user.profileImage = baseUrl + "uploads/" + user.profileImage;
+      user = User.fromJson(responseJson['userInfo']);
+      user.profileImage = baseUrl + "uploads/" + user.profileImage;
 
-    print(user.profileImage);
+      lastWords = responseJson['data']
+          .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
+          .toList()
+          .cast<UserWord>();
 
-    lastWords = responseJson['data']
-        .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-        .toList()
-        .cast<UserWord>();
+      showWords = lastWords;
+    }
+  }
+
+  @action
+  Future getUserWords(String token) async {
+    if (words.length > 0) {
+      showWords = [...words];
+    } else {
+      final response = await http.get(
+        Uri.parse(baseUrl + 'api/words'),
+        headers: {HttpHeaders.authorizationHeader: token},
+      );
+
+      final responseJson = jsonDecode(response.body);
+
+      user = User.fromJson(responseJson['userInfo']);
+      user.profileImage = baseUrl + "uploads/" + user.profileImage;
+
+      words = responseJson['data']
+          .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
+          .toList()
+          .cast<UserWord>();
+
+      showWords = words;
+    }
   }
 }

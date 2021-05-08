@@ -24,6 +24,36 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
+  final _$showWordsAtom = Atom(name: '_LastWordsViewModelBase.showWords');
+
+  @override
+  List<UserWord> get showWords {
+    _$showWordsAtom.reportRead();
+    return super.showWords;
+  }
+
+  @override
+  set showWords(List<UserWord> value) {
+    _$showWordsAtom.reportWrite(value, super.showWords, () {
+      super.showWords = value;
+    });
+  }
+
+  final _$wordsAtom = Atom(name: '_LastWordsViewModelBase.words');
+
+  @override
+  List<UserWord> get words {
+    _$wordsAtom.reportRead();
+    return super.words;
+  }
+
+  @override
+  set words(List<UserWord> value) {
+    _$wordsAtom.reportWrite(value, super.words, () {
+      super.words = value;
+    });
+  }
+
   final _$userAtom = Atom(name: '_LastWordsViewModelBase.user');
 
   @override
@@ -48,10 +78,20 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
         .run(() => super.getUserLastWords(token));
   }
 
+  final _$getUserWordsAsyncAction =
+      AsyncAction('_LastWordsViewModelBase.getUserWords');
+
+  @override
+  Future<dynamic> getUserWords(String token) {
+    return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
+  }
+
   @override
   String toString() {
     return '''
 lastWords: ${lastWords},
+showWords: ${showWords},
+words: ${words},
 user: ${user}
     ''';
   }

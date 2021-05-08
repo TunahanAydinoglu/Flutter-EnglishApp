@@ -37,8 +37,7 @@ abstract class _SignupViewModelBase with Store {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    var request =
-        await http.Request('POST', Uri.parse(baseUrl + 'auth/register'));
+    var request = http.Request('POST', Uri.parse(baseUrl + 'auth/register'));
     request.body =
         jsonEncode({'name': fullName, 'email': email, 'password': password});
     request.headers.addAll(headers);

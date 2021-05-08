@@ -42,8 +42,6 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
                   size: 30,
                 ),
                 onPressed: () {
-                  print(_lastWordsViewModel.user);
-
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -58,10 +56,9 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
         ),
         body: Observer(builder: (_) {
           return Container(
-            child: _lastWordsViewModel.lastWords.length > 0
-                ? listWordsWidget(_lastWordsViewModel.lastWords)
-                : Center(child: CircularProgressIndicator()),
-          );
+              child: _lastWordsViewModel.showWords.length > 0
+                  ? listWordsWidget(_lastWordsViewModel.showWords)
+                  : Center(child: CircularProgressIndicator()));
         }),
         bottomNavigationBar: Container(
           color: Colors.transparent,
@@ -81,7 +78,8 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
                         flex: 5,
                         child: InkWell(
                           onTap: () {
-                            print("Your Words");
+                            print("Your Last Words");
+                            _lastWordsViewModel.getUserLastWords(widget.token);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -107,7 +105,8 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
                         flex: 5,
                         child: InkWell(
                           onTap: () {
-                            print("Your Last Words");
+                            print("Your Words");
+                            _lastWordsViewModel.getUserWords(widget.token);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -150,7 +149,7 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
                             color: themeData.accentColor,
                             icon: Icon(Icons.add),
                             onPressed: () {
-                              print("add button");
+                              buildShowDialog(context);
                             })),
                   ],
                 ),
@@ -206,5 +205,41 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
         ),
       ),
     );
+  }
+
+  Future buildShowDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("You can add new words here.."),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null, //grow automatically
+                decoration: InputDecoration.collapsed(
+                  fillColor: themeData.accentColor,
+                  hintText: "Please enter a lot of text",
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Add"),
+              ),
+            ],
+          );
+        });
   }
 }
