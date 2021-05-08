@@ -25,7 +25,7 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
 
   @override
   void initState() {
-    _lastWordsViewModel.getUserLastWords(widget.token);
+    _lastWordsViewModel.getUserWords(widget.token);
     super.initState();
   }
 
@@ -161,8 +161,7 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
 
   ListView listWordsWidget(List<UserWord> lastWords) => ListView.builder(
         itemCount: lastWords.length,
-        itemBuilder: (context, index) =>
-            index == 0 ? indexZeroCard : wordCard(lastWords, index),
+        itemBuilder: (context, index) => wordCard(lastWords, index),
       );
 
   Card get indexZeroCard => Card(
@@ -187,7 +186,6 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
       );
 
   Card wordCard(List<UserWord> lastWords, int index) {
-    index = index - 1;
     return Card(
       margin: EdgeInsets.all(10),
       child: Padding(
@@ -218,6 +216,9 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
               reverse: true,
               child: TextField(
                 keyboardType: TextInputType.multiline,
+                onChanged: (String addText) {
+                  _lastWordsViewModel.onChangeAddText(addText);
+                },
                 maxLines: null, //grow automatically
                 decoration: InputDecoration.collapsed(
                   fillColor: themeData.accentColor,
@@ -233,7 +234,8 @@ class _LastWordsScreenState extends BaseState<LastWordsScreen> {
                 child: Text("Cancel"),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  _lastWordsViewModel.addWords(widget.token);
                   Navigator.pop(context);
                 },
                 child: Text("Add"),

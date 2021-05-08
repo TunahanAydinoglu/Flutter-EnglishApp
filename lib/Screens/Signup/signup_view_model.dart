@@ -9,11 +9,8 @@ class SignupViewModel = _SignupViewModelBase with _$SignupViewModel;
 abstract class _SignupViewModelBase with Store {
   final baseUrl = "https://retro-words.herokuapp.com/api/";
 
-  @observable
   String fullName = "";
-  @observable
   String email = "";
-  @observable
   String password = "";
 
   @action

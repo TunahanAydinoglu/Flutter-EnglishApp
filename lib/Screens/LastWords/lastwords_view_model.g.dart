@@ -69,6 +69,13 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
+  final _$addWordsAsyncAction = AsyncAction('_LastWordsViewModelBase.addWords');
+
+  @override
+  Future<dynamic> addWords(String token) {
+    return _$addWordsAsyncAction.run(() => super.addWords(token));
+  }
+
   final _$getUserLastWordsAsyncAction =
       AsyncAction('_LastWordsViewModelBase.getUserLastWords');
 
@@ -84,6 +91,20 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
   @override
   Future<dynamic> getUserWords(String token) {
     return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
+  }
+
+  final _$_LastWordsViewModelBaseActionController =
+      ActionController(name: '_LastWordsViewModelBase');
+
+  @override
+  dynamic onChangeAddText(String add) {
+    final _$actionInfo = _$_LastWordsViewModelBaseActionController.startAction(
+        name: '_LastWordsViewModelBase.onChangeAddText');
+    try {
+      return super.onChangeAddText(add);
+    } finally {
+      _$_LastWordsViewModelBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

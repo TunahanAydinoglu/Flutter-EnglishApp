@@ -85,8 +85,8 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
 
                             // image: NetworkImage(widget.user.profileImage),
                             image: NetworkImage(
-                                "https://retro-words.herokuapp.com/uploads/image_608474c56947b73750185958.jpeg"),
-                            fit: BoxFit.contain),
+                                "https://retro-words.herokuapp.com/uploads/default_profile.jpg"),
+                            fit: BoxFit.fill),
                       ),
                       width: dynamicWidth(0.4),
                       height: dynamicWidth(0.4),

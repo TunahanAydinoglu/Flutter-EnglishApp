@@ -22,54 +22,79 @@ abstract class _LastWordsViewModelBase with Store {
   @observable
   List<UserWord> words = [];
 
+  String addText = "";
+
   @observable
   User user = User();
 
   @action
+  onChangeAddText(String add) {
+    addText = add;
+  }
+
+  @action
+  Future addWords(String token) async {
+    var response = await http.post(
+      Uri.parse(baseUrl + 'api/words/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': token,
+        'Cookie': token
+      },
+      body: jsonEncode(<String, String>{
+        'text': addText,
+      }),
+    );
+    print(response);
+    // showWords.clear();
+    getUserLastWords(token);
+  }
+
+  @action
   Future getUserLastWords(String token) async {
-    if (lastWords.length > 0) {
-      showWords = [...lastWords];
-    } else {
-      final response = await http.get(
-        Uri.parse(baseUrl + 'api/words/last'),
-        headers: {HttpHeaders.authorizationHeader: token},
-      );
+    // if (lastWords.length > 0) {
+    //   showWords = [...lastWords];
+    // } else {
+    // final response = await http.get(
+    //   Uri.parse(baseUrl + 'api/words'),
+    //   headers: {HttpHeaders.authorizationHeader: token},
+    // );
 
-      final responseJson = jsonDecode(response.body);
+    // final responseJson = jsonDecode(response.body);
 
-      user = User.fromJson(responseJson['userInfo']);
-      user.profileImage = baseUrl + "uploads/" + user.profileImage;
+    // user = User.fromJson(responseJson['userInfo']);
+    // user.profileImage = baseUrl + "uploads/" + user.profileImage;
 
-      lastWords = responseJson['data']
-          .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-          .toList()
-          .cast<UserWord>();
+    // lastWords = responseJson['data']
+    //     .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
+    //     .toList()
+    //     .cast<UserWord>();
 
-      showWords = lastWords;
-    }
+    showWords = words.sublist(0, user.userLastWordCount);
+    // }
   }
 
   @action
   Future getUserWords(String token) async {
-    if (words.length > 0) {
-      showWords = [...words];
-    } else {
-      final response = await http.get(
-        Uri.parse(baseUrl + 'api/words'),
-        headers: {HttpHeaders.authorizationHeader: token},
-      );
+    // if (words.length > 0) {
+    //   showWords = [...words];
+    // } else {
+    final response = await http.get(
+      Uri.parse(baseUrl + 'api/words'),
+      headers: {HttpHeaders.authorizationHeader: token},
+    );
 
-      final responseJson = jsonDecode(response.body);
+    final responseJson = jsonDecode(response.body);
 
-      user = User.fromJson(responseJson['userInfo']);
-      user.profileImage = baseUrl + "uploads/" + user.profileImage;
+    user = User.fromJson(responseJson['userInfo']);
+    user.profileImage = baseUrl + "uploads/" + user.profileImage;
 
-      words = responseJson['data']
-          .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-          .toList()
-          .cast<UserWord>();
+    words = responseJson['data']
+        .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
+        .toList()
+        .cast<UserWord>();
 
-      showWords = words;
-    }
+    showWords = words;
+    // }
   }
 }

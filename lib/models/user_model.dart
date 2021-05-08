@@ -5,6 +5,7 @@ class User {
   String role;
   String profileImage;
   int isShowCount;
+  int userLastWordCount;
   bool isShowMemory;
   bool blocked;
 
@@ -14,6 +15,7 @@ class User {
       this.email,
       this.role,
       this.profileImage,
+      this.userLastWordCount,
       this.isShowCount,
       this.isShowMemory,
       this.blocked});
@@ -24,6 +26,7 @@ class User {
     email = json['email'];
     role = json['role'];
     profileImage = json['profileImage'];
+    userLastWordCount = json['userLastWordCount'];
     isShowCount = json['isShowCount'];
     isShowMemory = json['isShowMemory'];
     blocked = json['blocked'];
@@ -36,6 +39,7 @@ class User {
     data['email'] = this.email;
     data['role'] = this.role;
     data['profileImage'] = this.profileImage;
+    data['userLastWordCount'] = this.userLastWordCount;
     data['isShowCount'] = this.isShowCount;
     data['isShowMemory'] = this.isShowMemory;
     data['blocked'] = this.blocked;

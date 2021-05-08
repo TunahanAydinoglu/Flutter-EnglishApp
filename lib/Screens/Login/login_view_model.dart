@@ -26,7 +26,7 @@ abstract class _LoginViewModelBase with Store {
 
   @action
   Future<bool> loginPost() async {
-    final mail = "dilan@cetinkaya.com";
+    final mail = "dilann@cetinkaya.com";
     final passw = "070707";
     var response = await Dio()
         .post(baseUrl + "auth/login", data: {'email': mail, "password": passw});
