@@ -26,10 +26,10 @@ abstract class _LoginViewModelBase with Store {
 
   @action
   Future<bool> loginPost() async {
-    final mail = "dilann@cetinkaya.com";
-    final passw = "070707";
-    var response = await Dio()
-        .post(baseUrl + "auth/login", data: {'email': mail, "password": passw});
+    // final mail = "dilann@cetinkaya.com";
+    // final passw = "070707";
+    var response = await Dio().post(baseUrl + "auth/login",
+        data: {'email': email, "password": password});
     var responseData = LoginUserModel.fromJson(response.data);
     token = responseData.token;
     // print("login VM : " + token);

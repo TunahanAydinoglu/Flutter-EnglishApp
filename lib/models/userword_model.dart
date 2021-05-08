@@ -5,7 +5,8 @@ class UserWord {
   String word;
   String translation;
   String user;
-  String createdAt;
+  int createdAt;
+  int updatedAt;
 
   UserWord(
       {this.counter,
@@ -14,7 +15,8 @@ class UserWord {
       this.word,
       this.translation,
       this.user,
-      this.createdAt});
+      this.createdAt,
+      this.updatedAt});
 
   UserWord.fromJson(Map<String, dynamic> json) {
     counter = json['counter'];
@@ -24,6 +26,7 @@ class UserWord {
     translation = json['translation'];
     user = json['user'];
     createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class UserWord {
     data['translation'] = this.translation;
     data['user'] = this.user;
     data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
     return data;
   }
 }
@@ -72,7 +76,8 @@ class Data {
   String word;
   String translation;
   String user;
-  String createdAt;
+  int createdAt;
+  int updatedAt;
   int iV;
 
   Data(
@@ -83,6 +88,7 @@ class Data {
       this.translation,
       this.user,
       this.createdAt,
+      this.updatedAt,
       this.iV});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -93,6 +99,7 @@ class Data {
     translation = json['translation'];
     user = json['user'];
     createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
     iV = json['__v'];
   }
 
@@ -105,6 +112,7 @@ class Data {
     data['translation'] = this.translation;
     data['user'] = this.user;
     data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
     return data;
   }

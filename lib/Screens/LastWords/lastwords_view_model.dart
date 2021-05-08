@@ -52,26 +52,7 @@ abstract class _LastWordsViewModelBase with Store {
 
   @action
   Future getUserLastWords(String token) async {
-    // if (lastWords.length > 0) {
-    //   showWords = [...lastWords];
-    // } else {
-    // final response = await http.get(
-    //   Uri.parse(baseUrl + 'api/words'),
-    //   headers: {HttpHeaders.authorizationHeader: token},
-    // );
-
-    // final responseJson = jsonDecode(response.body);
-
-    // user = User.fromJson(responseJson['userInfo']);
-    // user.profileImage = baseUrl + "uploads/" + user.profileImage;
-
-    // lastWords = responseJson['data']
-    //     .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-    //     .toList()
-    //     .cast<UserWord>();
-
     showWords = words.sublist(0, user.userLastWordCount);
-    // }
   }
 
   @action
