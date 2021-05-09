@@ -14,10 +14,6 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Dilan Çetinkaya",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: size.height * 0.05),
             SvgPicture.asset(
               "assets/icons/chat.svg",
@@ -27,10 +23,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "SIGN IN",
               press: () {
-                Navigator.pushNamed(
-                  context,
-                  "/signin"
-                );
+                Navigator.pushNamed(context, "/signin");
               },
             ),
             RoundedButton(
@@ -38,10 +31,7 @@ class Body extends StatelessWidget {
               color: kPrimaryLightColor,
               textColor: Colors.black,
               press: () {
-                Navigator.pushNamed(
-                  context,
-                  "/signup"
-                );
+                Navigator.pushNamed(context, "/signup");
               },
             ),
           ],

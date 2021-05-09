@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_view_model.dart';
+part of 'signin_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'login_view_model.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LoginViewModel on _LoginViewModelBase, Store {
-  final _$tokenAtom = Atom(name: '_LoginViewModelBase.token');
+mixin _$SigninViewModel on _SigninViewModelBase, Store {
+  final _$tokenAtom = Atom(name: '_SigninViewModelBase.token');
 
   @override
   String get token {
@@ -24,35 +24,35 @@ mixin _$LoginViewModel on _LoginViewModelBase, Store {
     });
   }
 
-  final _$loginPostAsyncAction = AsyncAction('_LoginViewModelBase.loginPost');
+  final _$loginPostAsyncAction = AsyncAction('_SigninViewModelBase.loginPost');
 
   @override
   Future<bool> loginPost() {
     return _$loginPostAsyncAction.run(() => super.loginPost());
   }
 
-  final _$_LoginViewModelBaseActionController =
-      ActionController(name: '_LoginViewModelBase');
+  final _$_SigninViewModelBaseActionController =
+      ActionController(name: '_SigninViewModelBase');
 
   @override
   dynamic onChangeEmail(String mail) {
-    final _$actionInfo = _$_LoginViewModelBaseActionController.startAction(
-        name: '_LoginViewModelBase.onChangeEmail');
+    final _$actionInfo = _$_SigninViewModelBaseActionController.startAction(
+        name: '_SigninViewModelBase.onChangeEmail');
     try {
       return super.onChangeEmail(mail);
     } finally {
-      _$_LoginViewModelBaseActionController.endAction(_$actionInfo);
+      _$_SigninViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   dynamic onChangePassword(String passw) {
-    final _$actionInfo = _$_LoginViewModelBaseActionController.startAction(
-        name: '_LoginViewModelBase.onChangePassword');
+    final _$actionInfo = _$_SigninViewModelBaseActionController.startAction(
+        name: '_SigninViewModelBase.onChangePassword');
     try {
       return super.onChangePassword(passw);
     } finally {
-      _$_LoginViewModelBaseActionController.endAction(_$actionInfo);
+      _$_SigninViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 

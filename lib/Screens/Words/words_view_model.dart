@@ -5,11 +5,11 @@ import 'package:flutter_auth/models/user_model.dart';
 import 'package:flutter_auth/models/userword_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
-part 'lastwords_view_model.g.dart';
+part 'words_view_model.g.dart';
 
-class LastWordsViewModel = _LastWordsViewModelBase with _$LastWordsViewModel;
+class WordsViewModel = _WordsViewModelBase with _$WordsViewModel;
 
-abstract class _LastWordsViewModelBase with Store {
+abstract class _WordsViewModelBase with Store {
   final baseUrl = "https://retro-words.herokuapp.com/";
   String userId;
 

@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Signup/components/background.dart';
 import 'package:flutter_auth/Screens/Signup/signup_view_model.dart';
+import 'package:flutter_auth/Screens/Words/words_screen.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
+import 'package:flutter_auth/components/build_show_dialog.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_email_field.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
@@ -49,10 +53,38 @@ class Body extends StatelessWidget {
               press: () async {
                 var isSuccess = await _signupViewModel.registerPost();
                 isSuccess
-                    ? buildShowDialog(
-                        context, "Welcome", "Let's go to Signin :)")
-                    : buildShowDialog(context, "Upss..",
-                        "Email may be in use! Check your info pls.");
+                    ? () {
+                        BuildShowDialog(
+                            contextExternal: context,
+                            title: "Welcome",
+                            message: "Let's go to :)");
+                        Future.delayed(
+                            Duration(seconds: 3),
+                            () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => WordsScreen(
+                                      token: _signupViewModel.signupToken,
+                                    ),
+                                  ),
+                                ));
+                        // new Timer(
+                        //   const Duration(seconds: 3),
+                        //   () => Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => WordsScreen(
+                        //         token: _signupViewModel.signupToken,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // );
+                      }
+                    : BuildShowDialog(
+                        contextExternal: context,
+                        title: "Upss..",
+                        message: "Email may be in use! Check your info pls.",
+                      );
               },
             ),
             SizedBox(height: size.height * 0.03),
@@ -66,24 +98,5 @@ class Body extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future buildShowDialog(BuildContext context, String title, String message) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Ok"),
-              ),
-            ],
-          );
-        });
   }
 }

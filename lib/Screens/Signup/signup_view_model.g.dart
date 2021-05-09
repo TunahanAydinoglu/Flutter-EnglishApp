@@ -9,6 +9,21 @@ part of 'signup_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SignupViewModel on _SignupViewModelBase, Store {
+  final _$signupTokenAtom = Atom(name: '_SignupViewModelBase.signupToken');
+
+  @override
+  String get signupToken {
+    _$signupTokenAtom.reportRead();
+    return super.signupToken;
+  }
+
+  @override
+  set signupToken(String value) {
+    _$signupTokenAtom.reportWrite(value, super.signupToken, () {
+      super.signupToken = value;
+    });
+  }
+
   final _$registerPostAsyncAction =
       AsyncAction('_SignupViewModelBase.registerPost');
 
@@ -56,7 +71,7 @@ mixin _$SignupViewModel on _SignupViewModelBase, Store {
   @override
   String toString() {
     return '''
-
+signupToken: ${signupToken}
     ''';
   }
 }

@@ -13,6 +13,9 @@ abstract class _SignupViewModelBase with Store {
   String email = "";
   String password = "";
 
+  @observable
+  String signupToken = "";
+
   @action
   onChangeFullName(String name) {
     fullName = name;
@@ -44,6 +47,8 @@ abstract class _SignupViewModelBase with Store {
     final responseJson = jsonDecode(respStr);
 
     var result = RegisterResponseModel.fromJson(responseJson);
+
+    signupToken = result.token;
 
     return result.success;
   }

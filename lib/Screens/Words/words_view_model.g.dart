@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'lastwords_view_model.dart';
+part of 'words_view_model.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'lastwords_view_model.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
-  final _$lastWordsAtom = Atom(name: '_LastWordsViewModelBase.lastWords');
+mixin _$WordsViewModel on _WordsViewModelBase, Store {
+  final _$lastWordsAtom = Atom(name: '_WordsViewModelBase.lastWords');
 
   @override
   List<UserWord> get lastWords {
@@ -24,7 +24,7 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
-  final _$showWordsAtom = Atom(name: '_LastWordsViewModelBase.showWords');
+  final _$showWordsAtom = Atom(name: '_WordsViewModelBase.showWords');
 
   @override
   List<UserWord> get showWords {
@@ -39,7 +39,7 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
-  final _$wordsAtom = Atom(name: '_LastWordsViewModelBase.words');
+  final _$wordsAtom = Atom(name: '_WordsViewModelBase.words');
 
   @override
   List<UserWord> get words {
@@ -54,7 +54,7 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
-  final _$userAtom = Atom(name: '_LastWordsViewModelBase.user');
+  final _$userAtom = Atom(name: '_WordsViewModelBase.user');
 
   @override
   User get user {
@@ -69,7 +69,7 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
     });
   }
 
-  final _$addWordsAsyncAction = AsyncAction('_LastWordsViewModelBase.addWords');
+  final _$addWordsAsyncAction = AsyncAction('_WordsViewModelBase.addWords');
 
   @override
   Future<dynamic> addWords(String token) {
@@ -77,7 +77,7 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
   }
 
   final _$getUserLastWordsAsyncAction =
-      AsyncAction('_LastWordsViewModelBase.getUserLastWords');
+      AsyncAction('_WordsViewModelBase.getUserLastWords');
 
   @override
   Future<dynamic> getUserLastWords(String token) {
@@ -86,24 +86,24 @@ mixin _$LastWordsViewModel on _LastWordsViewModelBase, Store {
   }
 
   final _$getUserWordsAsyncAction =
-      AsyncAction('_LastWordsViewModelBase.getUserWords');
+      AsyncAction('_WordsViewModelBase.getUserWords');
 
   @override
   Future<dynamic> getUserWords(String token) {
     return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
   }
 
-  final _$_LastWordsViewModelBaseActionController =
-      ActionController(name: '_LastWordsViewModelBase');
+  final _$_WordsViewModelBaseActionController =
+      ActionController(name: '_WordsViewModelBase');
 
   @override
   dynamic onChangeAddText(String add) {
-    final _$actionInfo = _$_LastWordsViewModelBaseActionController.startAction(
-        name: '_LastWordsViewModelBase.onChangeAddText');
+    final _$actionInfo = _$_WordsViewModelBaseActionController.startAction(
+        name: '_WordsViewModelBase.onChangeAddText');
     try {
       return super.onChangeAddText(add);
     } finally {
-      _$_LastWordsViewModelBaseActionController.endAction(_$actionInfo);
+      _$_WordsViewModelBaseActionController.endAction(_$actionInfo);
     }
   }
 
