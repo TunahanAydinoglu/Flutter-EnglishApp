@@ -39,12 +39,13 @@ mixin _$ProfileViewModel on _ProfileViewModelBase, Store {
     });
   }
 
-  final _$getUserWordsAsyncAction =
-      AsyncAction('_ProfileViewModelBase.getUserWords');
+  final _$getUserInformationAsyncAction =
+      AsyncAction('_ProfileViewModelBase.getUserInformation');
 
   @override
-  Future<dynamic> getUserWords(String token) {
-    return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
+  Future<dynamic> getUserInformation(String token) {
+    return _$getUserInformationAsyncAction
+        .run(() => super.getUserInformation(token));
   }
 
   @override

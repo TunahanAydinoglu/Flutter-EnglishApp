@@ -19,23 +19,16 @@ abstract class _ProfileViewModelBase with Store {
   User user;
 
   @action
-  Future getUserWords(String token) async {
+  Future getUserInformation(String token) async {
     final response = await http.get(
-      Uri.parse(baseUrl + 'api/words'),
+      Uri.parse(baseUrl + 'api/auth/user'),
       headers: {HttpHeaders.authorizationHeader: token},
     );
 
     final responseJson = jsonDecode(response.body);
 
-    user = User.fromJson(responseJson['userInfo']);
+    user = User.fromJson(responseJson['data']);
 
     user.profileImage = baseUrl + "uploads/" + user.profileImage;
-
-    print(user.profileImage);
-
-    userWords = responseJson['data']
-        .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-        .toList()
-        .cast<UserWord>();
   }
 }

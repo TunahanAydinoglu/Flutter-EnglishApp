@@ -52,6 +52,7 @@ class Body extends StatelessWidget {
               text: "SIGNUP",
               press: () async {
                 var isSuccess = await _signupViewModel.registerPost();
+                print(isSuccess);
                 isSuccess
                     ? () {
                         BuildShowDialog(
