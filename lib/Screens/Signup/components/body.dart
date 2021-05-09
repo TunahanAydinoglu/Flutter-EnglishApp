@@ -17,11 +17,6 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final _signupViewModel = SignupViewModel();
 
-    getToken() {
-      var token = _signupViewModel.signupToken;
-      return token;
-    }
-
     Size size = MediaQuery.of(context).size;
 
     return Background(
@@ -62,7 +57,7 @@ class Body extends StatelessWidget {
                 print(isSuccess);
                 if (isSuccess) {
                   buildShowDialog(context, "welcome", "Let's go to :)");
-                  navigationDelayed(context, getToken());
+                  navigationDelayed(context, _signupViewModel.signupToken);
                 } else {
                   buildShowDialog(context, "Upss..",
                       "Email may be in use! Check your info pls.");
@@ -83,11 +78,12 @@ class Body extends StatelessWidget {
   }
 
   navigationDelayed(BuildContext context, String token) async {
-    var duration = new Duration(seconds: 3);
+    var duration = new Duration(seconds: 5);
     return new Timer(duration, route(context, token));
   }
 
   route(BuildContext context, String token) {
+    print(token);
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => WordsScreen(token: token)));
   }

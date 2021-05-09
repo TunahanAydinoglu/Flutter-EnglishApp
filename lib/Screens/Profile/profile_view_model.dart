@@ -18,6 +18,14 @@ abstract class _ProfileViewModelBase with Store {
   @observable
   User user;
 
+  @observable
+  int isShowCount = 0;
+
+  @action
+  onChangeUserIsCount(int value) {
+    isShowCount = value;
+  }
+
   @action
   Future getUserInformation(String token) async {
     final response = await http.get(
@@ -28,7 +36,6 @@ abstract class _ProfileViewModelBase with Store {
     final responseJson = jsonDecode(response.body);
 
     user = User.fromJson(responseJson['data']);
-
-    user.profileImage = baseUrl + "uploads/" + user.profileImage;
+    isShowCount = user.isShowCount;
   }
 }

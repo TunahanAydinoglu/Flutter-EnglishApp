@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Profile/profile_view_model.dart';
 import 'package:flutter_auth/core/base/base_state.dart';
 import 'package:flutter_auth/models/user_model.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
@@ -16,10 +17,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends BaseState<ProfileScreen> {
   // final _controller = AdvancedSwitchController();
+  final _profileViewModel = ProfileViewModel();
+  User user;
+  @override
+  void initState() {
+    _profileViewModel.getUserInformation(widget.token);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _controller = AdvancedSwitchController(widget.user.isShowMemory);
-    int _currentValue = widget.user.isShowCount;
+    int _currentValue = 1;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -221,7 +230,7 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),

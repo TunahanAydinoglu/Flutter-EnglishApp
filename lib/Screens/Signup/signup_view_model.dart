@@ -9,12 +9,12 @@ class SignupViewModel = _SignupViewModelBase with _$SignupViewModel;
 abstract class _SignupViewModelBase with Store {
   final baseUrl = "https://retro-words.herokuapp.com/api/";
 
-  String fullName = "";
-  String email = "";
-  String password = "";
+  String fullName;
+  String email;
+  String password;
 
   @observable
-  String signupToken = "";
+  String signupToken;
 
   @action
   onChangeFullName(String name) {
@@ -38,8 +38,10 @@ abstract class _SignupViewModelBase with Store {
       'Accept': 'application/json',
     };
     var request = http.Request('POST', Uri.parse(baseUrl + 'auth/register'));
-    request.body =
-        jsonEncode({'name': fullName, 'email': email, 'password': password});
+    var full = "deneme name";
+    var mail = "deneemeee@name.com";
+    var passw = "123123";
+    request.body = jsonEncode({'name': full, 'email': mail, 'password': passw});
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 

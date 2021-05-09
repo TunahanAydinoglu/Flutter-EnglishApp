@@ -39,6 +39,21 @@ mixin _$ProfileViewModel on _ProfileViewModelBase, Store {
     });
   }
 
+  final _$isShowCountAtom = Atom(name: '_ProfileViewModelBase.isShowCount');
+
+  @override
+  int get isShowCount {
+    _$isShowCountAtom.reportRead();
+    return super.isShowCount;
+  }
+
+  @override
+  set isShowCount(int value) {
+    _$isShowCountAtom.reportWrite(value, super.isShowCount, () {
+      super.isShowCount = value;
+    });
+  }
+
   final _$getUserInformationAsyncAction =
       AsyncAction('_ProfileViewModelBase.getUserInformation');
 
@@ -48,11 +63,26 @@ mixin _$ProfileViewModel on _ProfileViewModelBase, Store {
         .run(() => super.getUserInformation(token));
   }
 
+  final _$_ProfileViewModelBaseActionController =
+      ActionController(name: '_ProfileViewModelBase');
+
+  @override
+  dynamic onChangeUserIsCount(int value) {
+    final _$actionInfo = _$_ProfileViewModelBaseActionController.startAction(
+        name: '_ProfileViewModelBase.onChangeUserIsCount');
+    try {
+      return super.onChangeUserIsCount(value);
+    } finally {
+      _$_ProfileViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 userWords: ${userWords},
-user: ${user}
+user: ${user},
+isShowCount: ${isShowCount}
     ''';
   }
 }
