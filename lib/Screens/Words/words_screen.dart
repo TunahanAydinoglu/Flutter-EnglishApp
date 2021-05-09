@@ -25,6 +25,7 @@ class _WordsScreenState extends BaseState<WordsScreen> {
 
   @override
   void initState() {
+    // print(widget.token);
     _wordsViewModel.getUserWords(widget.token);
     super.initState();
   }
@@ -33,7 +34,8 @@ class _WordsScreenState extends BaseState<WordsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+          automaticallyImplyLeading: false,
+          centerTitle: false,
           title: Text("Last Words"),
           actions: [
             IconButton(

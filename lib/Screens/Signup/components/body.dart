@@ -16,7 +16,14 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _signupViewModel = SignupViewModel();
+
+    getToken() {
+      var token = _signupViewModel.signupToken;
+      return token;
+    }
+
     Size size = MediaQuery.of(context).size;
+
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -53,39 +60,13 @@ class Body extends StatelessWidget {
               press: () async {
                 var isSuccess = await _signupViewModel.registerPost();
                 print(isSuccess);
-                isSuccess
-                    ? () {
-                        BuildShowDialog(
-                            contextExternal: context,
-                            title: "Welcome",
-                            message: "Let's go to :)");
-                        Future.delayed(
-                            Duration(seconds: 3),
-                            () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WordsScreen(
-                                      token: _signupViewModel.signupToken,
-                                    ),
-                                  ),
-                                ));
-                        // new Timer(
-                        //   const Duration(seconds: 3),
-                        //   () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => WordsScreen(
-                        //         token: _signupViewModel.signupToken,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // );
-                      }
-                    : BuildShowDialog(
-                        contextExternal: context,
-                        title: "Upss..",
-                        message: "Email may be in use! Check your info pls.",
-                      );
+                if (isSuccess) {
+                  buildShowDialog(context, "welcome", "Let's go to :)");
+                  navigationDelayed(context, getToken());
+                } else {
+                  buildShowDialog(context, "Upss..",
+                      "Email may be in use! Check your info pls.");
+                }
               },
             ),
             SizedBox(height: size.height * 0.03),
@@ -99,5 +80,15 @@ class Body extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  navigationDelayed(BuildContext context, String token) async {
+    var duration = new Duration(seconds: 3);
+    return new Timer(duration, route(context, token));
+  }
+
+  route(BuildContext context, String token) {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => WordsScreen(token: token)));
   }
 }

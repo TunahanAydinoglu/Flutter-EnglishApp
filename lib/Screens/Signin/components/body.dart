@@ -56,11 +56,8 @@ class Body extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => WordsScreen(token: token)));
                 } else {
-                  BuildShowDialog(
-                    contextExternal: context,
-                    title: "Upps wrong parameters!!!",
-                    message: "Please check your info.",
-                  );
+                  buildShowDialog(context, "Upps wrong parameters!!!",
+                      "Please check your info.");
                 }
               },
             ),
