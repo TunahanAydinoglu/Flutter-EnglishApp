@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/Words/words_screen.dart';
 import 'package:flutter_auth/Screens/Profile/profile_screen.dart';
 import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/constants.dart';
 
 import 'Screens/Signin/signin_screen.dart';

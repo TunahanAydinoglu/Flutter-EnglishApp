@@ -9,21 +9,6 @@ part of 'words_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$WordsViewModel on _WordsViewModelBase, Store {
-  final _$lastWordsAtom = Atom(name: '_WordsViewModelBase.lastWords');
-
-  @override
-  List<UserWord> get lastWords {
-    _$lastWordsAtom.reportRead();
-    return super.lastWords;
-  }
-
-  @override
-  set lastWords(List<UserWord> value) {
-    _$lastWordsAtom.reportWrite(value, super.lastWords, () {
-      super.lastWords = value;
-    });
-  }
-
   final _$showWordsAtom = Atom(name: '_WordsViewModelBase.showWords');
 
   @override
@@ -80,9 +65,8 @@ mixin _$WordsViewModel on _WordsViewModelBase, Store {
       AsyncAction('_WordsViewModelBase.getUserLastWords');
 
   @override
-  Future<dynamic> getUserLastWords(String token) {
-    return _$getUserLastWordsAsyncAction
-        .run(() => super.getUserLastWords(token));
+  Future<dynamic> getUserLastWords() {
+    return _$getUserLastWordsAsyncAction.run(() => super.getUserLastWords());
   }
 
   final _$getUserWordsAsyncAction =
@@ -110,7 +94,6 @@ mixin _$WordsViewModel on _WordsViewModelBase, Store {
   @override
   String toString() {
     return '''
-lastWords: ${lastWords},
 showWords: ${showWords},
 words: ${words},
 user: ${user}

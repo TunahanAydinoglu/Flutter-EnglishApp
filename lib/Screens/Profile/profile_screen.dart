@@ -17,18 +17,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends BaseState<ProfileScreen> {
   // final _controller = AdvancedSwitchController();
+  int _currentValue = 1;
   final _profileViewModel = ProfileViewModel();
-  User user;
+  var _controller = AdvancedSwitchController();
+
   @override
   void initState() {
     _profileViewModel.getUserInformation(widget.token);
+    _controller = AdvancedSwitchController(widget.user.isShowMemory);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _controller = AdvancedSwitchController(widget.user.isShowMemory);
-    int _currentValue = 1;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -198,8 +199,11 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
                                         minValue: 1,
                                         maxValue: 10000,
                                         axis: Axis.horizontal,
-                                        onChanged: (value) => setState(
-                                            () => _currentValue = value),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _currentValue = value;
+                                          });
+                                        },
                                       ),
                                     ],
                                   )
@@ -219,7 +223,10 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
                                         borderRadius:
                                             BorderRadius.circular(18)),
                                     child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          print(_controller.value);
+                                          print(_currentValue);
+                                        },
                                         child: Text(
                                           "Save Changes",
                                           style: TextStyle(

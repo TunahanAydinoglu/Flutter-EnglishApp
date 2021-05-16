@@ -14,9 +14,6 @@ abstract class _WordsViewModelBase with Store {
   String userId;
 
   @observable
-  List<UserWord> lastWords = [];
-
-  @observable
   List<UserWord> showWords = [];
 
   @observable
@@ -47,11 +44,11 @@ abstract class _WordsViewModelBase with Store {
     );
     print(response);
     // showWords.clear();
-    getUserLastWords(token);
+    getUserLastWords();
   }
 
   @action
-  Future getUserLastWords(String token) async {
+  Future getUserLastWords() async {
     showWords = words.sublist(0, user.userLastWordCount);
   }
 
@@ -74,7 +71,6 @@ abstract class _WordsViewModelBase with Store {
         .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
         .toList()
         .cast<UserWord>();
-
     showWords = words;
     // }
   }
