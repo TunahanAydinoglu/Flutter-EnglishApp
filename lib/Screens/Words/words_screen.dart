@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Profile/profile_screen.dart';
 import 'package:flutter_auth/Screens/Quiz/quiz_screen.dart';
 import 'package:flutter_auth/Screens/Quiz/quiz_view_model.dart';
 import 'package:flutter_auth/Screens/Words/words_view_model.dart';
-import 'package:flutter_auth/Screens/Profile/profile_screen.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/core/base/base_state.dart';
+import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
-import '../../models/userword_model.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WordsScreen extends StatefulWidget {
   final String token;
 
   const WordsScreen({Key key, this.token}) : super(key: key);
-
   @override
   _WordsScreenState createState() => _WordsScreenState();
 }
@@ -24,153 +23,176 @@ class _WordsScreenState extends BaseState<WordsScreen> {
 
   @override
   void initState() {
+    super.initState();
     _wordsViewModel.getUserWords(widget.token);
     _quizViewModel.getQuizAsync(widget.token);
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          title: Text("Words"),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.question_answer_outlined,
-                  size: 27,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QuizScreen(
-                                token: widget.token,
-                                user: _wordsViewModel.user,
-                                questions: _quizViewModel.quizResponseData,
-                              )));
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.person_outline,
-                  size: 30,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfileScreen(
-                              token: widget.token,
-                              user: _wordsViewModel.user)));
-                }),
-            SizedBox(
-              width: 20,
-            )
-          ],
-        ),
-        body: Observer(builder: (_) {
-          return Container(
-              child: _wordsViewModel.showWords.length > 0
-                  ? listWordsWidget(_wordsViewModel.showWords)
-                  : Center(child: CircularProgressIndicator()));
-        }),
-        bottomNavigationBar: bottomNavigateWidget(context));
+      backgroundColor: gradientEndColor,
+      resizeToAvoidBottomInset: false,
+      body: Observer(builder: (_) {
+        return Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [gradientStartColor, gradientEndColor],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.3, 0.7])),
+            child: _wordsViewModel.showWords.length > 0
+                ? bodyWidget(context)
+                : Center(child: CircularProgressIndicator()));
+      }),
+      bottomNavigationBar: bottomNavigateWidget(context),
+    );
   }
 
-  Container bottomNavigateWidget(BuildContext context) {
+  Widget bottomNavigateWidget(BuildContext context) {
     return Container(
-      color: Colors.transparent,
-      height: dynamicHeight(0.08),
-      child: Stack(
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
+      width: double.infinity,
+      height: dynamicHeight(0.10),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.4),
+        borderRadius: BorderRadius.all(
+          Radius.circular(30),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: InkWell(
-                      onTap: () {
-                        print("Your Last Words");
-                        _wordsViewModel.getUserLastWords();
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kPurpLight,
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(30)),
-                        ),
-                        padding: EdgeInsets.only(left: dynamicWidth(0.06)),
-                        alignment: Alignment.centerLeft,
-                        height: dynamicHeight(0.07),
-                        child: Text(
-                          "Your Last Words",
-                          style: TextStyle(
-                            color: themeData.accentColor,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: InkWell(
-                      onTap: () {
-                        _wordsViewModel.getUserWords(widget.token);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: kPurpLight,
-                          borderRadius:
-                              BorderRadius.only(topRight: Radius.circular(30)),
-                        ),
-                        padding: EdgeInsets.only(right: dynamicWidth(0.08)),
-                        alignment: Alignment.centerRight,
-                        height: dynamicHeight(0.07),
-                        child: Text(
-                          "Your Words",
-                          style: TextStyle(
-                            color: themeData.accentColor,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+          TextButton(
+            onPressed: () {
+              print("All Words");
+              _wordsViewModel.getUserWords(widget.token);
+            },
+            child: Text(
+              "All Words",
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                fontSize: 20,
+                color: const Color(0xffffffff),
+                fontWeight: FontWeight.w900,
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(99),
-                      color: themeData.primaryColor,
-                    ),
-                    child: IconButton(
-                        highlightColor: themeData.primaryColor,
-                        splashRadius: 10,
-                        color: themeData.accentColor,
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          buildShowDialog(context);
-                        })),
-              ],
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.purple, width: 1),
+                borderRadius: BorderRadius.circular(15)),
+            child: IconButton(
+                highlightColor: Colors.transparent,
+                splashRadius: 1,
+                color: themeData.accentColor,
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                    builder: (context) {
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 15, bottom: 8.5),
+                              width: 100,
+                              height: 2,
+                              color: Colors.grey,
+                            ),
+                            Text(
+                              "You can add new words here..",
+                              style: TextStyle(
+                                fontFamily: 'Avenir',
+                                fontSize: 16,
+                                color: Colors.black54,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 3),
+                              child: TextField(
+                                keyboardType: TextInputType.multiline,
+                                onChanged: (String addText) {
+                                  _wordsViewModel.onChangeAddText(addText);
+                                },
+                                maxLines: null,
+                                decoration: InputDecoration(
+                                    fillColor: themeData.accentColor,
+                                    hintText: "Please enter a lot of text",
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15)))),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () async {
+                                    _wordsViewModel.addWords(widget.token);
+                                    Navigator.pop(context);
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.purple.withOpacity(0.8))),
+                                  child: Text(
+                                    "Add",
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }),
+          ),
+          TextButton(
+            onPressed: () {
+              print("Your Last Words");
+              _wordsViewModel.getUserLastWords();
+            },
+            child: Text(
+              "Last Words",
+              style: TextStyle(
+                fontFamily: 'Avenir',
+                fontSize: 20,
+                color: const Color(0xffffffff),
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
         ],
@@ -178,71 +200,196 @@ class _WordsScreenState extends BaseState<WordsScreen> {
     );
   }
 
-  ListView listWordsWidget(List<UserWord> lastWords) => ListView.builder(
-        itemCount: lastWords.length,
-        itemBuilder: (context, index) {
-          print(lastWords[index].word);
-          return wordCard(lastWords, index);
-        },
-      );
-
-  Card wordCard(List<UserWord> lastWords, int index) {
-    return Card(
-      margin: EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: dynamicWidth(0.3),
-              child: Text(lastWords[index].word),
+  SafeArea bodyWidget(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(32, 32, 20, 32),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Words',
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: 44,
+                    color: const Color(0xffffffff),
+                    fontWeight: FontWeight.w900,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                            pageBuilder: (context, animation, _) {
+                              return QuizScreen(
+                                token: widget.token,
+                                user: _wordsViewModel.user,
+                                questions: _quizViewModel.quizResponseData,
+                              );
+                            },
+                            opaque: false));
+                      },
+                      child: SvgPicture.asset(
+                        "assets/icons/quiz.svg",
+                        width: 35,
+                        height: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileScreen(
+                                    token: widget.token,
+                                    user: _wordsViewModel.user)));
+                      },
+                      child: SvgPicture.asset(
+                        "assets/icons/profile.svg",
+                        width: 35,
+                        height: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-            Text(lastWords[index].translation),
-            Icon(Icons.check)
-          ],
-        ),
+          ),
+          Container(
+            height: 400,
+            padding: const EdgeInsets.only(left: 32),
+            child: Swiper(
+              itemCount: _wordsViewModel.showWords.length,
+              itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+              layout: SwiperLayout.STACK,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: <Widget>[
+                    SizedBox(height: 50),
+                    Card(
+                      elevation: 8,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                      color: Colors.white,
+                      child: Container(
+                        height: 300,
+                        width: 300,
+                        padding: const EdgeInsets.all(32.0),
+                        child: Stack(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  _wordsViewModel.showWords[index].word,
+                                  style: TextStyle(
+                                    fontFamily: 'Avenir',
+                                    fontSize: 44,
+                                    color: const Color(0xff47455f),
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SvgPicture.asset(
+                                  "assets/icons/arrow.svg",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 40.0),
+                                  child: Text(
+                                    _wordsViewModel
+                                        .showWords[index].translation,
+                                    style: TextStyle(
+                                      fontFamily: 'Avenir',
+                                      fontSize: 23,
+                                      color: primaryTextColor,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          print("Ok..");
+                                        },
+                                        child: SvgPicture.asset(
+                                          "assets/icons/ok.svg",
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          print("Deleted..");
+                                        },
+                                        child: SvgPicture.asset(
+                                          "assets/icons/delete.svg",
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Positioned(
+                              bottom: -20,
+                              right: 0,
+                              child: Text(
+                                "${index + 1}",
+                                style: TextStyle(
+                                  fontFamily: 'Avenir',
+                                  fontSize: 110,
+                                  color: primaryTextColor.withOpacity(0.08),
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          Text(
+            "${_wordsViewModel.showWords.length} words found.",
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
       ),
     );
-  }
-
-  Future buildShowDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("You can add new words here.."),
-            content: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              child: TextField(
-                keyboardType: TextInputType.multiline,
-                onChanged: (String addText) {
-                  _wordsViewModel.onChangeAddText(addText);
-                },
-                maxLines: null, //grow automatically
-                decoration: InputDecoration.collapsed(
-                  fillColor: themeData.accentColor,
-                  hintText: "Please enter a lot of text",
-                ),
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Cancel"),
-              ),
-              TextButton(
-                onPressed: () async {
-                  _wordsViewModel.addWords(widget.token);
-                  Navigator.pop(context);
-                },
-                child: Text("Add"),
-              ),
-            ],
-          );
-        });
   }
 }

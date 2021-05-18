@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:flutter_auth/Screens/Profile/profile_view_model.dart';
+import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/core/base/base_state.dart';
 import 'package:flutter_auth/models/user_model.dart';
-import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -10,13 +11,11 @@ class ProfileScreen extends StatefulWidget {
   final User user;
 
   const ProfileScreen({Key key, this.token, this.user}) : super(key: key);
-
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends BaseState<ProfileScreen> {
-  // final _controller = AdvancedSwitchController();
   int _currentValue = 1;
   final _profileViewModel = ProfileViewModel();
   var _controller = AdvancedSwitchController();
@@ -31,224 +30,284 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/profilebg.jpeg"),
-              fit: BoxFit.cover),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  dynamicWidth(0.01), dynamicHeight(0.025), 0, 0),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_sharp,
-                    color: themeData.accentColor,
-                    size: 25,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            ),
-            Container(
-              height: dynamicHeight(0.9),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          "WELCOME",
-                          style: TextStyle(
-                              color: themeData.accentColor,
-                              fontSize: 25,
-                              letterSpacing: 6,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          height: dynamicHeight(0.04),
-                        ),
-                        Text(
-                          widget.user.name.toUpperCase(),
-                          style: TextStyle(
-                              color: themeData.accentColor,
-                              fontSize: 28,
-                              letterSpacing: 3.5,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(
-                          height: dynamicHeight(0.065),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(99),
-                                color: Colors.red,
-                                image: DecorationImage(
-                                    image:
-                                        NetworkImage(widget.user.profileImage),
-                                    fit: BoxFit.fill),
-                              ),
-                              width: dynamicWidth(0.4),
-                              height: dynamicWidth(0.4),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 23, right: 23, top: 30),
-                      child: Container(
-                        height: dynamicHeight(0.4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Email: ",
-                                    style: TextStyle(
-                                        color: themeData.primaryColor,
-                                        fontSize: 18,
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    widget.user.email,
-                                    style: TextStyle(
-                                        color: themeData.primaryColor,
-                                        fontSize: 17,
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w500),
-                                  ),
+        backgroundColor: Colors.transparent,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     colors: [gradientStartColor, gradientEndColor],
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //   ),
+              // ),
+              color: Colors.white,
+              child: TweenAnimationBuilder(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: Duration(milliseconds: 1500),
+                  builder: (context, value, child) {
+                    return ShaderMask(
+                      shaderCallback: (rect) {
+                        return RadialGradient(
+                                radius: value * 5,
+                                colors: [
+                                  Colors.white,
+                                  Colors.white,
+                                  Colors.transparent,
+                                  Colors.transparent
                                 ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Let's show the memorized words?",
-                                    style: TextStyle(
-                                        color: themeData.primaryColor,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    width: dynamicWidth(0.08),
-                                  ),
-                                  AdvancedSwitch(
-                                    controller: _controller,
-                                    activeColor: themeData.primaryColor,
-                                    inactiveColor: Colors.grey,
-                                    activeChild: Text('ON'),
-                                    inactiveChild: Text('OFF'),
-                                    borderRadius: BorderRadius.all(
-                                        const Radius.circular(15)),
-                                    width: 60.0,
-                                    height: 25.0,
-                                    enabled: true,
-                                    disabledOpacity: 0.5,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: dynamicWidth(0.6),
-                                    child: Text(
-                                      "How many times do we have to show the words?",
-                                      maxLines: 2,
-                                      textDirection: TextDirection.ltr,
-                                      style: TextStyle(
-                                          color: themeData.primaryColor,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500),
+                                stops: [0.0, 0.55, 0.6, 1.0],
+                                center: FractionalOffset(0.95, 0.1))
+                            .createShader(rect);
+                      },
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        gradientStartColor,
+                                        gradientEndColor
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
                                     ),
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      NumberPicker(
-                                        value: _currentValue,
-                                        itemHeight: 25,
-                                        itemWidth: 30,
-                                        haptics: false,
-                                        selectedTextStyle: TextStyle(
-                                            color: themeData.primaryColor,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w500),
-                                        minValue: 1,
-                                        maxValue: 10000,
-                                        axis: Axis.horizontal,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _currentValue = value;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: dynamicHeight(0.06),
-                                    width: dynamicWidth(0.3),
-                                    decoration: BoxDecoration(
-                                        color: themeData.primaryColor,
-                                        borderRadius:
-                                            BorderRadius.circular(18)),
-                                    child: TextButton(
-                                        onPressed: () {
-                                          print(_controller.value);
-                                          print(_currentValue);
-                                        },
-                                        child: Text(
-                                          "Save Changes",
-                                          style: TextStyle(
-                                              color: themeData.accentColor,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500),
+                                  child: Column(children: [
+                                    SizedBox(
+                                      height: 65.0,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 65.0,
+                                      backgroundImage: NetworkImage(
+                                          widget.user.profileImage),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Text(widget.user.name.toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
                                         )),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      height: 70.0,
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(top: 50),
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ListTile(
+                                                leading: Text(
+                                                  "Email : ",
+                                                  style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Text(
+                                                  widget.user.email,
+                                                  style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Colors.black,
+                                              ),
+                                              ListTile(
+                                                  leading: Text(
+                                                    "Let's show the\nmemorized words ?",
+                                                    style: TextStyle(
+                                                        fontSize: 17.0,
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                        color: Colors.white),
+                                                  ),
+                                                  trailing: AdvancedSwitch(
+                                                    controller: _controller,
+                                                    activeColor:
+                                                        themeData.primaryColor,
+                                                    inactiveColor: Colors.grey,
+                                                    activeChild: Text('ON'),
+                                                    inactiveChild: Text('OFF'),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            const Radius
+                                                                .circular(15)),
+                                                    width: 60.0,
+                                                    height: 25.0,
+                                                    enabled: true,
+                                                    disabledOpacity: 0.5,
+                                                  )),
+                                              Divider(
+                                                color: Colors.black,
+                                              ),
+                                              ListTile(
+                                                leading: Text(
+                                                  "How many times do we\nhave to show the words?",
+                                                  style: TextStyle(
+                                                      fontSize: 17.0,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: NumberPicker(
+                                                  value: _currentValue,
+                                                  itemHeight: 25,
+                                                  itemWidth: 30,
+                                                  haptics: false,
+                                                  selectedTextStyle: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  minValue: 1,
+                                                  maxValue: 10000,
+                                                  axis: Axis.horizontal,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _currentValue = value;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                              Divider(
+                                                color: Colors.black,
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  print(_controller.value);
+                                                  print(_currentValue);
+                                                },
+                                                child: Container(
+                                                  width: 120,
+                                                  height: 40,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Text(
+                                                    "Save Changes",
+                                                    style: TextStyle(
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ]),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                          Positioned(
+                              top: MediaQuery.of(context).size.height * 0.4,
+                              left: 20.0,
+                              right: 20.0,
+                              child: Card(
+                                  child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                          "Count",
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14.0),
+                                        ),
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(
+                                          widget.user.isShowCount.toString(),
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                    Container(
+                                      child: Column(children: [
+                                        Text(
+                                          'Last Word',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14.0),
+                                        ),
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(
+                                          widget.user.userLastWordCount
+                                              .toString(),
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                        )
+                                      ]),
+                                    ),
+                                    Container(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                          'Blocked',
+                                          style: TextStyle(
+                                              color: Colors.grey[400],
+                                              fontSize: 14.0),
+                                        ),
+                                        SizedBox(
+                                          height: 5.0,
+                                        ),
+                                        Text(
+                                          widget.user.blocked.toString(),
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                              ))),
+                          Positioned(
+                            top: 30,
+                            left: 0,
+                            child: IconButton(
+                                icon:
+                                    Icon(Icons.arrow_back, color: Colors.white),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                          ),
+                        ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                    );
+                  }),
+            );
+          },
+        ));
   }
 }

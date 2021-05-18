@@ -65,7 +65,7 @@ packages:
     source: hosted
     version: "1.5.3"
   build_runner:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
@@ -209,6 +209,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2+1"
+  flutter_card_swipper:
+    dependency: "direct main"
+    description:
+      name: flutter_card_swipper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   flutter_mobx:
     dependency: "direct main"
     description:
@@ -228,13 +235,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  get:
-    dependency: "direct main"
-    description:
-      name: get
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.1.4"
   glob:
     dependency: transitive
     description:
@@ -334,7 +334,7 @@ packages:
     source: hosted
     version: "1.2.1+4"
   mobx_codegen:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: mobx_codegen
       url: "https://pub.dartlang.org"
