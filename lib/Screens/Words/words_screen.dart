@@ -8,6 +8,7 @@ import 'package:flutter_auth/core/base/base_state.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:translator/translator.dart';
 
 class WordsScreen extends StatefulWidget {
   final String token;
@@ -20,12 +21,23 @@ class WordsScreen extends StatefulWidget {
 class _WordsScreenState extends BaseState<WordsScreen> {
   final _wordsViewModel = WordsViewModel();
   final _quizViewModel = QuizViewModel();
+  GoogleTranslator translator = new GoogleTranslator();
+  String fromTranslate = "";
 
   @override
   void initState() {
     super.initState();
     _wordsViewModel.getUserWords(widget.token);
     _quizViewModel.getQuizAsync(widget.token);
+  }
+
+  void translateWord(toTranslate) {
+    translator.translate(toTranslate.word, to: 'tr').then((output) {
+      setState(() {
+        fromTranslate = output.toString();
+      });
+      print(fromTranslate);
+    });
   }
 
   @override
@@ -205,180 +217,8 @@ class _WordsScreenState extends BaseState<WordsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(32, 32, 20, 32),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Words',
-                  style: TextStyle(
-                    fontFamily: 'Avenir',
-                    fontSize: 44,
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w900,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(PageRouteBuilder(
-                            pageBuilder: (context, animation, _) {
-                              return QuizScreen(
-                                token: widget.token,
-                                user: _wordsViewModel.user,
-                                questions: _quizViewModel.quizResponseData,
-                              );
-                            },
-                            opaque: false));
-                      },
-                      child: SvgPicture.asset(
-                        "assets/icons/quiz.svg",
-                        width: 35,
-                        height: 35,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProfileScreen(
-                                    token: widget.token,
-                                    user: _wordsViewModel.user)));
-                      },
-                      child: SvgPicture.asset(
-                        "assets/icons/profile.svg",
-                        width: 35,
-                        height: 35,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Container(
-            height: 400,
-            padding: const EdgeInsets.only(left: 32),
-            child: Swiper(
-              itemCount: _wordsViewModel.showWords.length,
-              itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-              layout: SwiperLayout.STACK,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: <Widget>[
-                    SizedBox(height: 50),
-                    Card(
-                      elevation: 8,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                      color: Colors.white,
-                      child: Container(
-                        height: 300,
-                        width: 300,
-                        padding: const EdgeInsets.all(32.0),
-                        child: Stack(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  _wordsViewModel.showWords[index].word,
-                                  style: TextStyle(
-                                    fontFamily: 'Avenir',
-                                    fontSize: 44,
-                                    color: const Color(0xff47455f),
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SvgPicture.asset(
-                                  "assets/icons/arrow.svg",
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 40.0),
-                                  child: Text(
-                                    _wordsViewModel
-                                        .showWords[index].translation,
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      fontSize: 23,
-                                      color: primaryTextColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          print("Ok..");
-                                        },
-                                        child: SvgPicture.asset(
-                                          "assets/icons/ok.svg",
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          print("Deleted..");
-                                        },
-                                        child: SvgPicture.asset(
-                                          "assets/icons/delete.svg",
-                                          width: 20,
-                                          height: 20,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            Positioned(
-                              bottom: -20,
-                              right: 0,
-                              child: Text(
-                                "${index + 1}",
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontSize: 110,
-                                  color: primaryTextColor.withOpacity(0.08),
-                                  fontWeight: FontWeight.w900,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+          tapBarWidget(context),
+          wordsCardWidget(context),
           Text(
             "${_wordsViewModel.showWords.length} words found.",
             style: TextStyle(
@@ -391,5 +231,204 @@ class _WordsScreenState extends BaseState<WordsScreen> {
         ],
       ),
     );
+  }
+
+  Container wordsCardWidget(BuildContext context) {
+    return Container(
+      height: 400,
+      padding: const EdgeInsets.only(left: 32),
+      child: Swiper(
+        itemCount: _wordsViewModel.showWords.length,
+        itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+        layout: SwiperLayout.STACK,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Column(
+            children: <Widget>[
+              SizedBox(height: 50),
+              Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                color: Colors.white,
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  padding: const EdgeInsets.all(32.0),
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            _wordsViewModel.showWords[index].word,
+                            style: TextStyle(
+                              fontFamily: 'Avenir',
+                              fontSize: 44,
+                              color: const Color(0xff47455f),
+                              fontWeight: FontWeight.w900,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          SvgPicture.asset(
+                            "assets/icons/arrow.svg",
+                            width: 30,
+                            height: 30,
+                          ),
+                          isEmptyTranslation(index),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    print("Ok..");
+                                  },
+                                  child: SvgPicture.asset(
+                                    "assets/icons/ok.svg",
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    print("Deleted..");
+                                  },
+                                  child: SvgPicture.asset(
+                                    "assets/icons/delete.svg",
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Positioned(
+                        bottom: -20,
+                        right: 0,
+                        child: Text(
+                          "${index + 1}",
+                          style: TextStyle(
+                            fontFamily: 'Avenir',
+                            fontSize: 110,
+                            color: primaryTextColor.withOpacity(0.08),
+                            fontWeight: FontWeight.w900,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Padding tapBarWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(32, 32, 20, 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Words',
+            style: TextStyle(
+              fontFamily: 'Avenir',
+              fontSize: 44,
+              color: const Color(0xffffffff),
+              fontWeight: FontWeight.w900,
+            ),
+            textAlign: TextAlign.left,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      pageBuilder: (context, animation, _) {
+                        return QuizScreen(
+                          token: widget.token,
+                          user: _wordsViewModel.user,
+                          questions: _quizViewModel.quizResponseData,
+                        );
+                      },
+                      opaque: false));
+                },
+                child: SvgPicture.asset(
+                  "assets/icons/quiz.svg",
+                  width: 35,
+                  height: 35,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                              token: widget.token,
+                              user: _wordsViewModel.user)));
+                },
+                child: SvgPicture.asset(
+                  "assets/icons/profile.svg",
+                  width: 35,
+                  height: 35,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding isEmptyTranslation(int index) {
+    return Padding(
+        padding: const EdgeInsets.only(left: 40.0),
+        child:
+            _wordsViewModel.showWords[index].translation != "kelime bulunamadi"
+                ? Text(
+                    _wordsViewModel.showWords[index].translation,
+                    style: TextStyle(
+                      fontFamily: 'Avenir',
+                      fontSize: 23,
+                      color: primaryTextColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.left,
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      translateWord(_wordsViewModel.showWords[index]);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Tap to Translate",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.black54, width: 2)),
+                    ),
+                  ));
   }
 }
