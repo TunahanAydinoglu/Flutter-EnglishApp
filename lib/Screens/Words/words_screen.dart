@@ -22,7 +22,6 @@ class _WordsScreenState extends BaseState<WordsScreen> {
   final _wordsViewModel = WordsViewModel();
   final _quizViewModel = QuizViewModel();
   GoogleTranslator translator = new GoogleTranslator();
-  String fromTranslate = "";
 
   @override
   void initState() {
@@ -31,12 +30,10 @@ class _WordsScreenState extends BaseState<WordsScreen> {
     _quizViewModel.getQuizAsync(widget.token);
   }
 
-  void translateWord(toTranslate) {
+  void translateWord(toTranslate, index) {
     translator.translate(toTranslate.word, to: 'tr').then((output) {
-      setState(() {
-        fromTranslate = output.toString();
-      });
-      print(fromTranslate);
+      _wordsViewModel.words[index].translation = output.toString();
+      setState(() {});
     });
   }
 
@@ -384,7 +381,8 @@ class _WordsScreenState extends BaseState<WordsScreen> {
                       MaterialPageRoute(
                           builder: (context) => ProfileScreen(
                               token: widget.token,
-                              user: _wordsViewModel.user)));
+                              user: _wordsViewModel.user,
+                              wordsCount: _wordsViewModel.words.length)));
                 },
                 child: SvgPicture.asset(
                   "assets/icons/profile.svg",
@@ -400,35 +398,37 @@ class _WordsScreenState extends BaseState<WordsScreen> {
     );
   }
 
-  Padding isEmptyTranslation(int index) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 40.0),
-        child:
-            _wordsViewModel.showWords[index].translation != "kelime bulunamadi"
-                ? Text(
-                    _wordsViewModel.showWords[index].translation,
-                    style: TextStyle(
-                      fontFamily: 'Avenir',
-                      fontSize: 23,
-                      color: primaryTextColor,
-                      fontWeight: FontWeight.w500,
+  Widget isEmptyTranslation(int index) {
+    return Observer(builder: (_) {
+      return Padding(
+          padding: const EdgeInsets.only(left: 40.0),
+          child: _wordsViewModel.showWords[index].translation !=
+                  "kelime bulunamadi"
+              ? Text(
+                  _wordsViewModel.showWords[index].translation,
+                  style: TextStyle(
+                    fontFamily: 'Avenir',
+                    fontSize: 23,
+                    color: primaryTextColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.left,
+                )
+              : GestureDetector(
+                  onTap: () {
+                    translateWord(_wordsViewModel.showWords[index], index);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Tap to Translate",
+                      style: TextStyle(color: Colors.black),
                     ),
-                    textAlign: TextAlign.left,
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      translateWord(_wordsViewModel.showWords[index]);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        "Tap to Translate",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Colors.black54, width: 2)),
-                    ),
-                  ));
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.black54, width: 2)),
+                  ),
+                ));
+    });
   }
 }

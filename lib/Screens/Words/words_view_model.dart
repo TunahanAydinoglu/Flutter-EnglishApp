@@ -54,24 +54,24 @@ abstract class _WordsViewModelBase with Store {
 
   @action
   Future getUserWords(String token) async {
-    // if (words.length > 0) {
-    //   showWords = [...words];
-    // } else {
-    final response = await http.get(
-      Uri.parse(baseUrl + 'api/words'),
-      headers: {HttpHeaders.authorizationHeader: token},
-    );
+    if (words.length > 0) {
+      showWords = [...words];
+    } else {
+      final response = await http.get(
+        Uri.parse(baseUrl + 'api/words'),
+        headers: {HttpHeaders.authorizationHeader: token},
+      );
 
-    final responseJson = jsonDecode(response.body);
+      final responseJson = jsonDecode(response.body);
 
-    user = User.fromJson(responseJson['userInfo']);
-    user.profileImage = baseUrl + "uploads/" + user.profileImage;
+      user = User.fromJson(responseJson['userInfo']);
+      user.profileImage = baseUrl + "uploads/" + user.profileImage;
 
-    words = responseJson['data']
-        .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
-        .toList()
-        .cast<UserWord>();
-    showWords = words;
-    // }
+      words = responseJson['data']
+          .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
+          .toList()
+          .cast<UserWord>();
+      showWords = words;
+    }
   }
 }

@@ -9,8 +9,10 @@ import 'package:numberpicker/numberpicker.dart';
 class ProfileScreen extends StatefulWidget {
   final String token;
   final User user;
+  final int wordsCount;
 
-  const ProfileScreen({Key key, this.token, this.user}) : super(key: key);
+  const ProfileScreen({Key key, this.token, this.user, this.wordsCount})
+      : super(key: key);
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -44,7 +46,7 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
               color: Colors.white,
               child: TweenAnimationBuilder(
                   tween: Tween(begin: 0.0, end: 1.0),
-                  duration: Duration(milliseconds: 1500),
+                  duration: Duration(milliseconds: 1000),
                   builder: (context, value, child) {
                     return ShaderMask(
                       shaderCallback: (rect) {
@@ -223,75 +225,63 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
                               left: 20.0,
                               right: 20.0,
                               child: Card(
+                                  color: Colors.transparent,
+                                  elevation: 0,
                                   child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                        child: Column(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          "Count",
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14.0),
+                                        Container(
+                                            child: Column(
+                                          children: [
+                                            Text(
+                                              "Words",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  letterSpacing: 1.7,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: 5.0,
+                                            ),
+                                            Text(
+                                              widget.wordsCount.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600),
+                                            )
+                                          ],
+                                        )),
+                                        Container(
+                                          child: Column(children: [
+                                            Text(
+                                              'Last Word',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18.0,
+                                                  letterSpacing: 1.5,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: 5.0,
+                                            ),
+                                            Text(
+                                              widget.user.userLastWordCount
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600),
+                                            )
+                                          ]),
                                         ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(
-                                          widget.user.isShowCount.toString(),
-                                          style: TextStyle(
-                                            fontSize: 15.0,
-                                          ),
-                                        )
                                       ],
-                                    )),
-                                    Container(
-                                      child: Column(children: [
-                                        Text(
-                                          'Last Word',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14.0),
-                                        ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(
-                                          widget.user.userLastWordCount
-                                              .toString(),
-                                          style: TextStyle(
-                                            fontSize: 15.0,
-                                          ),
-                                        )
-                                      ]),
                                     ),
-                                    Container(
-                                        child: Column(
-                                      children: [
-                                        Text(
-                                          'Blocked',
-                                          style: TextStyle(
-                                              color: Colors.grey[400],
-                                              fontSize: 14.0),
-                                        ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(
-                                          widget.user.blocked.toString(),
-                                          style: TextStyle(
-                                            fontSize: 15.0,
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                                  ],
-                                ),
-                              ))),
+                                  ))),
                           Positioned(
                             top: 30,
                             left: 0,
