@@ -77,6 +77,16 @@ mixin _$WordsViewModel on _WordsViewModelBase, Store {
     return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
   }
 
+  final _$postTranslateVocabularyAsyncAction =
+      AsyncAction('_WordsViewModelBase.postTranslateVocabulary');
+
+  @override
+  Future<dynamic> postTranslateVocabulary(
+      String token, String word, String translatedWord) {
+    return _$postTranslateVocabularyAsyncAction
+        .run(() => super.postTranslateVocabulary(token, word, translatedWord));
+  }
+
   final _$_WordsViewModelBaseActionController =
       ActionController(name: '_WordsViewModelBase');
 

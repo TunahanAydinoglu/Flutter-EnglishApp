@@ -32,7 +32,12 @@ class _WordsScreenState extends BaseState<WordsScreen> {
 
   void translateWord(toTranslate, index) {
     translator.translate(toTranslate.word, to: 'tr').then((output) {
-      _wordsViewModel.words[index].translation = output.toString();
+      String translatedWord = output.toString();
+      _wordsViewModel.words[index].translation = translatedWord;
+      if (translatedWord.length > 0) {
+        _wordsViewModel.postTranslateVocabulary(
+            widget.token, toTranslate.word, translatedWord);
+      }
       setState(() {});
     });
   }

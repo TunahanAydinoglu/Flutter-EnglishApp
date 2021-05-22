@@ -74,4 +74,21 @@ abstract class _WordsViewModelBase with Store {
       showWords = words;
     }
   }
+
+  @action
+  Future postTranslateVocabulary(
+      String token, String word, String translatedWord) async {
+    var response = await http.post(
+      Uri.parse(baseUrl + 'api/translateVocabulary/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': token,
+        'Cookie': token
+      },
+      body: jsonEncode(
+          <String, String>{'word': word, 'translation': translatedWord}),
+    );
+
+    print(jsonDecode(response.body));
+  }
 }
