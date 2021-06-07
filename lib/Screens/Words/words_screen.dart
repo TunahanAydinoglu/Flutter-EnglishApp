@@ -79,7 +79,6 @@ class _WordsScreenState extends BaseState<WordsScreen> {
         children: [
           TextButton(
             onPressed: () {
-              print("All Words");
               _wordsViewModel.getUserWords(widget.token);
             },
             child: Text(
@@ -154,7 +153,12 @@ class _WordsScreenState extends BaseState<WordsScreen> {
                                 TextButton(
                                   onPressed: () async {
                                     _wordsViewModel.addWords(widget.token);
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WordsScreen(
+                                                  token: widget.token,
+                                                )));
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -300,7 +304,9 @@ class _WordsScreenState extends BaseState<WordsScreen> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    print("Deleted..");
+                                    _wordsViewModel.deleteUserWord(
+                                        _wordsViewModel.showWords[index]);
+                                    print("dele");
                                   },
                                   child: SvgPicture.asset(
                                     "assets/icons/delete.svg",

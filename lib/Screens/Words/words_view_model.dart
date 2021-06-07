@@ -31,7 +31,7 @@ abstract class _WordsViewModelBase with Store {
 
   @action
   Future addWords(String token) async {
-    var response = await http.post(
+    await http.post(
       Uri.parse(baseUrl + 'api/words/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -42,14 +42,13 @@ abstract class _WordsViewModelBase with Store {
         'text': addText,
       }),
     );
-    print(response);
-    // showWords.clear();
-    getUserLastWords();
+    await getUserWords(token);
+    await getUserLastWords();
   }
 
   @action
   Future getUserLastWords() async {
-    showWords = words.sublist(0, user.userLastWordCount);
+    showWords = [...words.sublist(0, user.userLastWordCount - 1)];
   }
 
   @action
@@ -67,12 +66,19 @@ abstract class _WordsViewModelBase with Store {
       user = User.fromJson(responseJson['userInfo']);
       user.profileImage = baseUrl + "uploads/" + user.profileImage;
 
-      words = responseJson['data']
+      final newWords = responseJson['data']
           .map((e) => UserWord.fromJson(e as Map<String, dynamic>))
           .toList()
           .cast<UserWord>();
-      showWords = words;
+      words = [...newWords];
+      showWords = [...newWords];
     }
+  }
+
+  @action
+  Future deleteUserWord(UserWord word) async {
+    showWords.remove(word);
+    showWords = [...showWords];
   }
 
   @action

@@ -77,6 +77,14 @@ mixin _$WordsViewModel on _WordsViewModelBase, Store {
     return _$getUserWordsAsyncAction.run(() => super.getUserWords(token));
   }
 
+  final _$deleteUserWordAsyncAction =
+      AsyncAction('_WordsViewModelBase.deleteUserWord');
+
+  @override
+  Future<dynamic> deleteUserWord(UserWord word) {
+    return _$deleteUserWordAsyncAction.run(() => super.deleteUserWord(word));
+  }
+
   final _$postTranslateVocabularyAsyncAction =
       AsyncAction('_WordsViewModelBase.postTranslateVocabulary');
 

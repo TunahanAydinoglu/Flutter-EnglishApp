@@ -36,13 +36,6 @@ class _ProfileScreenState extends BaseState<ProfileScreen> {
         body: LayoutBuilder(
           builder: (context, constraints) {
             return Container(
-              // decoration: BoxDecoration(
-              //   gradient: LinearGradient(
-              //     colors: [gradientStartColor, gradientEndColor],
-              //     begin: Alignment.topCenter,
-              //     end: Alignment.bottomCenter,
-              //   ),
-              // ),
               color: Colors.white,
               child: TweenAnimationBuilder(
                   tween: Tween(begin: 0.0, end: 1.0),
